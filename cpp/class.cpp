@@ -119,6 +119,13 @@ public:
         cout << "拷贝构造函数调用。" << endl;
     }
 
+    B(const B&& b){
+        //引用限定
+        x = 1;
+        y = new int(*b.y);
+        cout << "拷贝构造函数调用2。" << endl;
+    }
+
     ~B(){
         if(y!=NULL){
             delete y;
@@ -143,7 +150,9 @@ B test03(void)
 void testcopy()
 {
     B b1(12, 34);   //有参构造
-    B b2(b1);   //拷贝构造
+    B b2(b1);   //拷贝构造&
+    //std::move()将一个左值强制转化为右值引用，继而可以通过右值引用使用该值
+    B b4(move(b1)); //拷贝构造&&
     cout << "b1:" << *b1.y << endl;
     cout << "b2:" << *b2.y << endl;
 
@@ -410,10 +419,10 @@ void friendtest()
 int main()
 {
     // testconstructor();
-    // testcopy();
+    testcopy();
     // testStatic();
     // testsize();
-    thistest();
+    // thistest();
     // friendtest();
     return 0;
 }
