@@ -45,6 +45,58 @@ class algorithmSort{
         quickSort(nums,first+1,r);
     }
     /**
+      * @brief          堆排序
+      * 堆排序的思想就是先将待排序的序列建成大根堆，使得每个父节点的元素大于等于它的子节点。
+      * 此时整个序列最大值即为堆顶元素，我们将其与末尾元素交换，使末尾元素为最大值，
+      * 然后再调整堆顶元素使得剩下的 n-1n−1 个元素仍为大根堆，再重复执行以上操作我们即能得到一个有序的序列。
+      * 时间复杂度:O(nlogn),初始化堆的时间复杂度为O(n)(对于每个非终端节点来说最多进行两次比较交换)，然后执行n-1次调整，每次调整的时间复杂度为O(logn)
+      * 空间复杂度:O(1),常数辅助变量
+      */
+    void buildHeap( vector<int> &nums , int n ){
+        // 先将待排序的序列建成大根堆，使得每个父节点的元素大于等于它的子节点。
+        for (int i = n / 2; i >= 0; --i) { // n/2之前的元素才有子树
+            heapify(nums, i, n);
+        }
+        cout<<"buildHeap:";
+        for(auto elem:nums) cout<<elem<<",";
+        cout<<endl;
+    }
+    void heapify( vector<int> &nums , int i , int n ){
+        // 保证此节点一直到叶子节点的:子节点均小于父节点
+        for (; (i << 1) + 1 <= n;) {
+            // 左子树为i*2+1,右子树i*2+2
+            int lson = (i << 1) + 1;
+            int rson = (i << 1) + 2;
+            int large;
+            // 比较节点与左右子树的大小，并保证节点为最大值
+            if (lson <= n && nums[lson] > nums[i]) {
+                large = lson;
+            } else {
+                large = i;
+            }
+            if (rson <= n && nums[rson] > nums[large]) {
+                large = rson;
+            }
+            if (large != i) {
+                swap(nums[i], nums[large]);
+                i = large;
+            } else {
+                break;
+            }
+        }
+    }
+    void heapSort( vector<int> &nums , int n ){
+        buildHeap( nums , n ); // 构建堆
+        for (int i = n; i >= 1; --i) {
+            // 将最大元素0与n的位置互换，从0调整前n-1个元素保证0为最大
+            // 逐渐将所有最大元素放到后面，就变成了从小到大排序
+            swap(nums[i], nums[0]);
+            n -= 1;
+            heapify(nums, 0, n);
+        }
+    }
+
+    /**
       * @brief          归并排序
       * 时间复杂度:O(nlogn)
       * 空间复杂度:O(n),临时数组
@@ -148,7 +200,9 @@ int main(){
 
     //s.insertionSort(nums,nums.size()); //插入排序
 
-    s.selectionSort(nums,nums.size()); //选择排序
+    // s.selectionSort(nums,nums.size()); //选择排序
+
+    s.heapSort(nums, nums.size()-1); // 堆排序
 
     cout<<"排序数据:";
     for(int num:nums) cout<<num<<",";
