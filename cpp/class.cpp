@@ -173,6 +173,7 @@ void testcopy()
 class Person
 {
 public:
+    int m_C;
 	static int m_A; //静态成员变量
 
     static void func(){
@@ -181,7 +182,11 @@ public:
     }
 private:
 	static int m_B; //静态成员变量也是有访问权限的
-    static void funcp(){} //无法通过p1.或Person::访问到
+    static void funcp(){
+        m_A = 0;
+        m_B = 0;
+        // m_C = 0; // 不能访问非静态成员变量
+    } //无法通过p1.或Person::访问到
 };
 
 int Person::m_A = 10; //程序外初始化静态成员变量

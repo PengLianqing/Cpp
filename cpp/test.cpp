@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <vector>
+#include <string>
 #include <string.h>
 
 using namespace std;
@@ -18,6 +19,8 @@ public:
 
 int main()
 {
+    std::string test;
+    test.c_str();
     std::cout << "Hello world" << std::endl;
     return 0;
 }

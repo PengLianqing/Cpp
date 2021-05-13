@@ -408,6 +408,20 @@ class BT{
 
         // 打印
         void postMorrisPrint( TreeNode* node ){
+            /*
+            // 辅助栈实现逆序打印,空间复杂度O(h)
+            stack<int> st;
+            while(node){
+                st.push(node->val);
+                node = node->right;
+            }
+            while(!st.empty()){
+                cout << st.top() << " ";
+                st.pop();
+            }
+            */
+            
+            // 翻转链表实现逆序打印,空间复杂度O(1)
             TreeNode* reverseList = postMorrisReverseList( node );
             TreeNode* cur = reverseList;
             while( cur ){
@@ -415,6 +429,7 @@ class BT{
                 cur = cur->right;
             }
             postMorrisReverseList( reverseList );
+            
         }
 
         // 翻转单链表
